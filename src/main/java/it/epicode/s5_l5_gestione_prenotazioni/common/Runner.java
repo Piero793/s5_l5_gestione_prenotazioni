@@ -9,7 +9,7 @@ import it.epicode.s5_l5_gestione_prenotazioni.postazioni.TipoPostazione;
 import it.epicode.s5_l5_gestione_prenotazioni.utenti.Utente;
 import it.epicode.s5_l5_gestione_prenotazioni.utenti.UtenteRepository;
 import it.epicode.s5_l5_gestione_prenotazioni.utenti.UtenteService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,35 +17,22 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class Runner implements CommandLineRunner {
-    @Autowired
-    private UtenteService utenteService;
-    @Autowired
-    private PostazioneService postazioneService;
-    @Autowired
-    private EdificioRepository edificioRepository;
-    @Autowired
-    private UtenteRepository utenteRepository;
-    @Autowired
-    private PostazioneRepository postazioneRepository;
-    @Autowired
-    private Edificio edificio1;
-    @Autowired
-    private Edificio edificio2;
-    @Autowired
-    private Edificio edificio3;
-    @Autowired
-    private Utente utente1;
-    @Autowired
-    private Utente utente2;
-    @Autowired
-    private Utente utente3;
-    @Autowired
-    private Postazione postazione1;
-    @Autowired
-    private Postazione postazione2;
-    @Autowired
-    private Postazione postazione3;
+    private final UtenteService utenteService;
+    private final PostazioneService postazioneService;
+    private final EdificioRepository edificioRepository;
+    private final UtenteRepository utenteRepository;
+    private final PostazioneRepository postazioneRepository;
+    private final Edificio edificio1;
+    private final Edificio edificio2;
+    private final Edificio edificio3;
+    private final Utente utente1;
+    private final Utente utente2;
+    private final Utente utente3;
+    private final Postazione postazione1;
+    private final Postazione postazione2;
+    private final Postazione postazione3;
 
     @Override
     public void run(String... args) throws Exception {
@@ -81,6 +68,26 @@ public class Runner implements CommandLineRunner {
         } else {
             System.out.println("Postazioni trovate: " + postazioniTrovate.size());
             postazioniTrovate.forEach(p -> System.out.println("Postazione disponibile: " + p.getDescrizione() + " - Data prenotazione: " + p.getDataPrenotazione()));
+        }
+
+        System.out.println("-------------------------------------");
+        System.out.println("\nRicerca postazioni disponibili...");
+        List<Postazione> postazioniDisponibili = postazioneRepository.findPostazioniDisponibili();
+
+        if (postazioniDisponibili.isEmpty()) {
+            System.out.println("Nessuna postazione disponibile.");
+        } else {
+            postazioniDisponibili.forEach(p -> System.out.println("Postazione libera: " + p.getDescrizione()));
+        }
+
+        System.out.println("-------------------------------------");
+        System.out.println("\nPostazioni prenotate da " + utente1.getNomeCompleto());
+        List<Postazione> postazioniPrenotate = postazioneRepository.findPostazioniPrenotateByUtente(utente1);
+
+        if (postazioniPrenotate.isEmpty()) {
+            System.out.println("L'utente non ha prenotazioni.");
+        } else {
+            postazioniPrenotate.forEach(p -> System.out.println("Postazione prenotata: " + p.getDescrizione() + " - Data: " + p.getDataPrenotazione()));
         }
     }
 }
