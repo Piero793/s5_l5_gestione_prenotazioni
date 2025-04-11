@@ -26,7 +26,7 @@ public class PostazioneConfig {
     @Bean
     public Postazione postazione1() {
         Postazione postazione = new Postazione();
-        postazione.setDescrizione("Postazione 1");
+        postazione.setDescrizione("Postazione open space");
         postazione.setTipo(TipoPostazione.OPENSPACE);
         postazione.setNumeroMassimoOccupanti(10);
         postazione.setEdificio(edificio2);
@@ -38,7 +38,7 @@ public class PostazioneConfig {
     @Bean
     public Postazione postazione2() {
         Postazione postazione = new Postazione();
-        postazione.setDescrizione("Postazione 2");
+        postazione.setDescrizione("Postazione privata per 1 persona");
         postazione.setTipo(TipoPostazione.PRIVATO);
         postazione.setNumeroMassimoOccupanti(1);
         postazione.setEdificio(edificio1);
@@ -50,7 +50,7 @@ public class PostazioneConfig {
     @Bean
     public Postazione postazione3() {
         Postazione postazione = new Postazione();
-        postazione.setDescrizione("Postazione 3");
+        postazione.setDescrizione("sala di riunione per 20 persone");
         postazione.setTipo(TipoPostazione.SALA_RIUNIONI);
         postazione.setNumeroMassimoOccupanti(20);
         postazione.setEdificio(edificio3);

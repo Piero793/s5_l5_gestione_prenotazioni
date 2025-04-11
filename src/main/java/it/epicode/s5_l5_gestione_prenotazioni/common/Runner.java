@@ -64,13 +64,13 @@ public class Runner implements CommandLineRunner {
         postazioneRepository.save(postazione2);
         postazioneRepository.save(postazione3);
 
-        // TEST METODO PRENOTAZIONE
-        LocalDate dataPrenotazione = LocalDate.now().plusDays(1); // Prenota per il giorno successivo
+        // METODO PRENOTAZIONE
+        LocalDate dataPrenotazione = LocalDate.now().plusDays(2);
         System.out.println("\nTentativo di prenotazione della postazione 1 per " + dataPrenotazione);
         String risultatoPrenotazione = postazioneService.prenotaPostazione(postazione1, utente1, dataPrenotazione);
         System.out.println("Risultato prenotazione: " + risultatoPrenotazione);
 
-        // TEST METODO RICERCA POSTAZIONI
+        // METODO RICERCA POSTAZIONI
         TipoPostazione tipoRicerca = TipoPostazione.PRIVATO;
         String cittaRicerca = "Roma";
         System.out.println("\nRicerca postazioni di tipo " + tipoRicerca + " in città " + cittaRicerca);

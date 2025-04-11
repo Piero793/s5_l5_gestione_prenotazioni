@@ -18,7 +18,7 @@ public class Postazione {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(nullable = false,length =30)
+    @Column(nullable = false,length =50)
     private String descrizione;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
