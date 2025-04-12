@@ -10,6 +10,7 @@ import it.epicode.s5_l5_gestione_prenotazioni.utenti.Utente;
 import it.epicode.s5_l5_gestione_prenotazioni.utenti.UtenteRepository;
 import it.epicode.s5_l5_gestione_prenotazioni.utenti.UtenteService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class Runner implements CommandLineRunner {
     private final UtenteService utenteService;
     private final PostazioneService postazioneService;
@@ -40,54 +42,57 @@ public class Runner implements CommandLineRunner {
         edificioRepository.save(edificio1);
         edificioRepository.save(edificio2);
         edificioRepository.save(edificio3);
+        log.info("Edifici salvati nel database.");
 
         // Salva gli utenti
         utenteRepository.save(utente1);
         utenteRepository.save(utente2);
         utenteRepository.save(utente3);
+        log.info("Utenti salvati nel database.");
 
         // Salva le postazioni
         postazioneRepository.save(postazione1);
         postazioneRepository.save(postazione2);
         postazioneRepository.save(postazione3);
+        log.info("Postazioni salvate nel database.");
 
         // METODO PRENOTAZIONE
         LocalDate dataPrenotazione = LocalDate.now().plusDays(2);
-        System.out.println("\nTentativo di prenotazione della postazione 1 per " + dataPrenotazione);
+        log.info("Tentativo di prenotazione della postazione 1 per {}", dataPrenotazione);
         String risultatoPrenotazione = postazioneService.prenotaPostazione(postazione1, utente1, dataPrenotazione);
-        System.out.println("Risultato prenotazione: " + risultatoPrenotazione);
+        log.info("Risultato prenotazione: {}", risultatoPrenotazione);
 
         // METODO RICERCA POSTAZIONI
         TipoPostazione tipoRicerca = TipoPostazione.PRIVATO;
         String cittaRicerca = "Roma";
-        System.out.println("\nRicerca postazioni di tipo " + tipoRicerca + " in città " + cittaRicerca);
+        log.info("Ricerca postazioni di tipo {} in città {}", tipoRicerca, cittaRicerca);
         List<Postazione> postazioniTrovate = postazioneService.cercaPostazione(tipoRicerca, cittaRicerca);
 
         if (postazioniTrovate.isEmpty()) {
-            System.out.println("Nessuna postazione trovata.");
+            log.warn("Nessuna postazione trovata.");
         } else {
-            System.out.println("Postazioni trovate: " + postazioniTrovate.size());
-            postazioniTrovate.forEach(p -> System.out.println("Postazione disponibile: " + p.getDescrizione() + " - Data prenotazione: " + p.getDataPrenotazione()));
+            log.info("Postazioni trovate: {}", postazioniTrovate.size());
+            postazioniTrovate.forEach(p -> log.info("Postazione disponibile: {} - Data prenotazione: {}", p.getDescrizione(), p.getDataPrenotazione()));
         }
 
-        System.out.println("-------------------------------------");
-        System.out.println("\nRicerca postazioni disponibili...");
+        log.info("-------------------------------------");
+        log.info("Ricerca postazioni disponibili...");
         List<Postazione> postazioniDisponibili = postazioneRepository.findPostazioniDisponibili();
 
         if (postazioniDisponibili.isEmpty()) {
-            System.out.println("Nessuna postazione disponibile.");
+            log.warn("Nessuna postazione disponibile.");
         } else {
-            postazioniDisponibili.forEach(p -> System.out.println("Postazione libera: " + p.getDescrizione()));
+            postazioniDisponibili.forEach(p -> log.info("Postazione libera: {}", p.getDescrizione()));
         }
 
-        System.out.println("-------------------------------------");
-        System.out.println("\nPostazioni prenotate da " + utente1.getNomeCompleto());
+        log.info("-------------------------------------");
+        log.info("Postazioni prenotate da {}", utente1.getNomeCompleto());
         List<Postazione> postazioniPrenotate = postazioneRepository.findPostazioniPrenotateByUtente(utente1);
 
         if (postazioniPrenotate.isEmpty()) {
-            System.out.println("L'utente non ha prenotazioni.");
+            log.warn("L'utente non ha prenotazioni.");
         } else {
-            postazioniPrenotate.forEach(p -> System.out.println("Postazione prenotata: " + p.getDescrizione() + " - Data: " + p.getDataPrenotazione()));
+            postazioniPrenotate.forEach(p -> log.info("Postazione prenotata: {} - Data: {}", p.getDescrizione(), p.getDataPrenotazione()));
         }
     }
 }
