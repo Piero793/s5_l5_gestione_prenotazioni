@@ -21,3 +21,5 @@ public class Utente {
     @Column(nullable = false,unique = true)
     private String email;
 }
+
+// aggiungo dei commenti d'esempio per il git flow
