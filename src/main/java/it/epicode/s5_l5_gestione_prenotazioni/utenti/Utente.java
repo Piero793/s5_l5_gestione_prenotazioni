@@ -23,3 +23,5 @@ public class Utente {
 }
 
 // aggiungo dei commenti d'esempio per il git flow
+// mi sto esercitando con l'uso di git flow e della creazione di nuove release
+// visualizzandole poi su github
